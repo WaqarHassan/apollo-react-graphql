@@ -75,7 +75,7 @@ export default function Job() {
             placeholder="Enter Job or Company"
             onChange={onChange}
           />
-          <div class="inbox-widget jumbotron mt-2">
+          <div class="inbox-widget chart-content-bg mt-2">
             {filtered &&
               filtered.map(
                 ({
@@ -85,9 +85,10 @@ export default function Job() {
                   description,
                   slug,
                   company,
-                  applyUrl
+                  applyUrl,
+                  userEmail
                 }) => (
-                  <div class="inbox-item">
+                  <div class="inbox-item custom">
                     <div class="inbox-item-img"></div>
                     <div class="custom-control custom-checkbox mb-2">
                       <input
@@ -131,6 +132,12 @@ export default function Job() {
                         </a>
                       )}
                     </p>
+                    {userEmail && (
+                      <p className="mt-2">
+                        <strong>Posted By:</strong>{" "}
+                        <a href={`mailto:${userEmail}`}> {userEmail}</a>
+                      </p>
+                    )}
                   </div>
                 )
               )}
