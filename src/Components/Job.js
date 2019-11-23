@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+
+// GQ Query to fetch all the JOBS
 const JOBS = gql`
   {
     jobs {
@@ -20,16 +22,21 @@ const JOBS = gql`
 `;
 
 export default function Job() {
+  // Following state element will hold the original list of Jobs always
   let [jobs, setJobs] = useState([]);
+  // Following state element will hold the Filtered list of Jobs.
   let [filtered, setFiltered] = useState([]);
+  // Call GQ API using ueQuery Hook
   const { loading, data } = useQuery(JOBS);
+  // Filter records as user starts typing in the input field.
   const onChange = e => {
+    // Filter record by mathing job title or company name
     let j = jobs.filter(
       j =>
         j.title.toLowerCase().includes(e.target.value.toLowerCase()) ||
         j.company.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
-    console.log("j Length - ", j.length);
+    // set State to re-render the component
     setFiltered(j);
   };
   if (loading)
@@ -51,6 +58,7 @@ export default function Job() {
         </div>
       </div>
     );
+  // set state when API returns record the first time. will be called only once
   if (!jobs.length && data && data.jobs.length) {
     setJobs(data.jobs);
     setFiltered(data.jobs);

@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useParams } from "react-router";
 
+// Call Graphql API to fetch record matching company and job Slug properties requried by API
 const GET_JOB = gql`
   query getJob($companySlug: String!, $jobSlug: String!) {
     job(input: { companySlug: $companySlug, jobSlug: $jobSlug }) {
@@ -20,8 +21,10 @@ const GET_JOB = gql`
 `;
 
 export default function JobDetails(props) {
+  // usePrams is used to read params and then call the API to fetch details
   const { job_slug, company_slug } = useParams();
   let [job, setJob] = useState({});
+  // useQuery is apollo Hook to call GQ API
   const { loading, data } = useQuery(GET_JOB, {
     variables: {
       jobSlug: job_slug,
@@ -29,9 +32,11 @@ export default function JobDetails(props) {
     }
   });
 
+  // setState when first api call is made. very important to mange state in hooks
   if (!Object.keys(job).length && data && data.job) {
     setJob(data.job);
   }
+  // Show user that data is being fetched from the backend.
   if (loading) {
     return (
       <div class="form-group">
@@ -46,6 +51,7 @@ export default function JobDetails(props) {
       </div>
     );
   }
+  // Destructuring the the state element
   const { id, title, isPublished, description, company, applyUrl } = job;
   return (
     <div class="form-group">

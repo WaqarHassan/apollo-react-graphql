@@ -6,6 +6,7 @@ import Job from "./Components/Job";
 import JobDetails from "./Components/JobDetails";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+// Set GQ API URI to be consumed by Apollo
 const client = new ApolloClient({
   uri: "https://api.graphql.jobs/"
 });
